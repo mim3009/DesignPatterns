@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	const Singleton = (() => {
+		let instance;
+
+		function createInstance() {
+			return 'Instance';
+		}
+
+		return {
+			getInstance: () => {
+				if(!instance) {
+					instance = createInstance();
+				}
+				return instance;
+			}
+		}
+	})();
+
+	(() => {
+		const instance1 = Singleton.getInstance(),
+			instance2 = Singleton.getInstance();
+
+		console.log(instance1 === instance2);
+	})();
+</script>
+</body>
+</html>

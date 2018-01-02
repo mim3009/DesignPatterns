@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	class Shipping {
+		constructor() {
+			this.company = "";
+		}
+
+		setStrategy(company) {
+			this.company = company;
+		}
+
+		calculate(parcel) {
+			return this.company.calculate(parcel);
+		}
+	}
+
+	class UPS {
+		calculate(parcel) {
+			return "$45.95";
+		}
+	}
+
+	class USPS {
+		calculate(parcel) {
+			return "$39.40";
+		}
+	}
+
+	class Fedex {
+		calculate(parcel) {
+			return "$43.20";
+		}
+	}
+
+	const parcel = {
+		from: "11111",
+		to: "22222",
+		weigth: "lkg"
+	};
+
+	const ups = new UPS(),
+		usps = new USPS(),
+		fedex = new Fedex(),
+		shipping = new Shipping();
+
+	shipping.setStrategy(ups);
+	console.log("UPS strategy: " + shipping.calculate(parcel));
+	shipping.setStrategy(usps);
+	console.log("USPS strategy: " + shipping.calculate(parcel));
+	shipping.setStrategy(fedex);
+	console.log("Fedex strategy: " + shipping.calculate(parcel));
+</script>
+</body>
+</html>

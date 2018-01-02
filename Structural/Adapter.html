@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	class Shipping {
+		request(zipStart, zipEnd, weight) {
+			return "$49.75";
+		}
+	}
+
+	class AdvancedShipping {
+		login(credentials) {}
+
+		setStart(start) {}
+
+		setDestination(destination) {}
+
+		calculate(weight) {
+			return "$39.50";
+		}
+	}
+
+	function ShippingAdapter(credentials) {
+		const shipping = new AdvancedShipping();
+		shipping.login(credentials);
+
+		return {
+			request: (zipStart, zipEnd, weight) => {
+				shipping.setStart(zipStart);
+				shipping.setDestination(zipEnd);
+				return shipping.calculate(weight);
+			}
+		};
+	}
+
+	(()=> {
+		const shipping = new Shipping(),
+			credentials = {token: '33ss-12d'},
+			adapter = new ShippingAdapter(credentials);
+
+		let cost = shipping.request("78781", "10010", "2 lbs");
+		console.log("Old cost: " + cost);
+
+		cost = adapter.request("78701", "10010", "2 lbs");
+		console.log("New cost: " + cost);
+	})();
+</script>
+</body>
+</html>

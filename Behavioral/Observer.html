@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	class Click {
+		constructor() {
+			this.handlers = [];
+		}
+
+		subscribe(fn) {
+			this.handlers.push(fn);
+		}
+
+		unsubscribe(fn) {
+			this.handlers = this.handlers.filter((item) => item !== fn);
+		}
+
+		fire(o, thisObj) {
+			const scope = thisObj || window;
+			for (const handler of this.handlers) {
+				handler.call(scope, o);
+			}
+		}
+	}
+
+	function clickHandler(item) {
+		console.log("Fired: " + item);
+	}
+
+	const click = new Click();
+
+	click.subscribe(clickHandler);
+	click.fire("event 1");
+	click.unsubscribe(clickHandler);
+	click.fire("event 2");
+	click.subscribe(clickHandler);
+	click.fire("event 3");
+</script>
+</body>
+</html>

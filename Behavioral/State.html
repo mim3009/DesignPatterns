@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	function TrafficLight() {
+		let count = 0, 
+			currentState = new Red(this);
+
+		this.change = function(state) {
+			if (count++ >= 10) return;
+			currentState = state;
+			currentState.go();
+		};
+
+		this.start = function() {
+			currentState.go();
+		};
+	}
+
+	class Red {
+		constructor(light) {
+			this.light = light;
+		}
+
+		go() {
+			console.log("Red --> for 1 minute");
+			light.change(new Green(light));
+		}
+	}
+
+	class Yellow {
+		constructor(light) {
+			this.light = light;
+		}
+
+		go() {
+			console.log("Yellow --> for 10 seconds");
+			light.change(new Red(light));
+		}
+	}
+
+	class Green {
+		constructor(light) {
+			this.light = light;
+		}
+
+		go() {
+			console.log("Green --> for 1 minute");
+			light.change(new Yellow(light));
+		}
+	}
+
+	const light = new TrafficLight();
+	light.start();
+</script>
+</body>
+</html>

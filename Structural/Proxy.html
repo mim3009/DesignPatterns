@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	class GeoCoder {
+		getLatLng(address) {
+			if (address === "Amsterdam") {
+				return "52.3700° N, 4.8900° E";
+			}
+			else {
+				return "";
+			}
+		}
+	}
+
+	function GetProxy() {
+		const geoCoder = new GeoCoder(),
+			geocache = {};
+
+		return {
+			getLatLng: (address) => {
+				if (!geocache[address]) {
+					geocache[address] = geoCoder.getLatLng(address);
+				}
+				console.log(address + ': ' + geocache[address]);
+				return geocache[address];
+			},
+			getCoount: () => {
+				let count = 0;
+				for (const code in geocache) {
+					count++;
+				}
+				return count;
+			}
+		}
+	}
+
+	(() => {
+		const geo = new GetProxy();
+
+		geo.getLatLng("Amsterdam");
+		geo.getLatLng("Amsterdam");
+
+		console.log("Cache size: " + geo.getCoount());
+	})();
+</script>
+</body>
+</html>

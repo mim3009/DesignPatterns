@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	class Gestures {
+		constructor(output) {
+			this.output = output;
+		}
+
+		tap() {
+			this.output.click();
+		}
+
+		swipe() {
+			this.output.move();
+		}
+
+		pan() {
+			this.output.drag();
+		}
+	}
+
+	class Screen {}
+
+	class ExtendedScreen1 extends Screen {
+		click() {
+			console.log('Screen1 select');
+		}
+
+		move() {
+			console.log('Screen1 move');
+		}
+
+		drag() {
+			console.log('Screen1 drag');
+		}
+	}
+
+	class ExtendedScreen2 extends Screen {
+		click() {
+			console.log('Screen2 select');
+		}
+
+		move() {
+			console.log('Screen2 move');
+		}
+
+		drag() {
+			console.log('Screen2 drag');
+		}
+	}
+
+	(() => {
+		const screen1 = new ExtendedScreen1(),
+			screen2 = new ExtendedScreen2(),
+			hand1 = new Gestures(screen1),
+			hand2 = new Gestures(screen2);
+
+		hand1.tap();
+		hand1.swipe();
+		hand1.pan();
+		hand2.tap();
+		hand2.swipe();
+		hand2.pan();
+	})();
+</script>
+</body>
+</html>

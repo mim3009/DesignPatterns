@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	class Factory {
+		createEmployee(type) {
+			let employee;
+
+			if (type === 'fullTime') {
+				employee = new FullTime();
+			}
+			else if (type === 'partTime') {
+				employee = new PartTime();
+			}
+			//can be default option
+
+			employee.type = type;
+
+			//can be moved to employee classes. Here just to show that we can extend employee from this method too
+			employee.say = function() {
+				console.log(this.type + ": rate " + this.hourly + "/hour");
+			}
+
+			return employee;
+		}
+	}
+
+	class FullTime {
+		constructor() {
+			this.hourly = "$12";
+		}
+	}
+
+	class PartTime {
+		constructor() {
+			this.hourly = "$11";
+		}
+	}
+
+	(() => {
+		let employees = [];
+		const factory = new Factory();
+
+		employees.push(factory.createEmployee("fullTime"));
+		employees.push(factory.createEmployee("partTime"));
+
+		for (const employee of employees) {
+			employee.say();
+		}
+	})();
+</script>
+</body>
+</html>

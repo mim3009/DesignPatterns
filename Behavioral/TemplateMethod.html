@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	const datastore = {
+		process: function() {
+			this.connect();
+			this.select();
+			this.disconnect();
+			return true;
+		}
+	};
+
+	function inherit(newProto) {
+		const F = function() {};
+		F.prototype = newProto;
+		return new F();
+	}
+
+	const mysql = inherit(datastore);
+	
+	mysql.connect = () => console.log("Mysql: connect step");
+	mysql.select = () => console.log("Mysql: select step");
+	mysql.disconnect = () => console.log("Mysql: disconnect step");
+
+	mysql.process();
+</script>
+</body>
+</html>
