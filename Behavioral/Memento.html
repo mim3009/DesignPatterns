@@ -6,23 +6,19 @@
 <body>
 <script type="text/javascript">
 	class Person {
-		constructor(name, street, city, state) {
+		constructor(name, city) {
 			this.name = name;
-			this.street = street;
 			this.city = city;
-			this.state = state;
 		}
 
-		hydrate() {
+		pack() {
 			return JSON.stringify(this);
 		}
 
-		dehydrate(memento) {
-			const m = JSON.parse(memento);
+		renew(memento) {
+			let m = JSON.parse(memento);
 			this.name = m.name;
-			this.street = m.street;
 			this.city = m.city;
-			this.state = m.state;
 		}
 	}
 
@@ -40,21 +36,21 @@
 		}
 	}
 
-	const mike = new Person("Mike Foley", "1112 Main", "Dallas", "TX"),
-		john = new Person("John Wang", "48th Street", "San Jose", "CA"),
+	let roma = new Person("Roma", "Kyiv"),
+		kate = new Person("Kate", "Chernihiv"),
 		caretaker = new CareTaker();
 
-	caretaker.add(1, mike.hydrate());
-	caretaker.add(2, john.hydrate());
+	caretaker.add(1, roma.pack());
+	caretaker.add(2, kate.pack());
 
-	mike.name = "Lalala";
-	john.name = "AAA";
+	roma.name = "Lalala";
+	kate.name = "AAA";
 
-	mike.dehydrate(caretaker.get(1));
-	john.dehydrate(caretaker.get(2));
+	roma.renew(caretaker.get(1));
+	kate.renew(caretaker.get(2));
 
-	console.log(mike.name);
-	console.log(john.name);
+	console.log(roma.name);
+	console.log(kate.name);
 </script>
 </body>
 </html>

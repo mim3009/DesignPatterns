@@ -4,48 +4,38 @@
 	<title></title>
 </head>
 <body>
-<script type="text/javascript">
-	class GeoCoder {
-		getLatLng(address) {
-			if (address === "Amsterdam") {
-				return "52.3700° N, 4.8900° E";
+	<script type="text/javascript">
+		class Image {
+			constructor(name) {
+				this.name = name;
+				this.loadFromDisk(name);
 			}
-			else {
-				return "";
+
+			loadFromDisk(name) {
+				console.log(`Loading from disk file: ${name}`);
 			}
-		}
-	}
 
-	function GetProxy() {
-		const geoCoder = new GeoCoder(),
-			geocache = {};
-
-		return {
-			getLatLng: (address) => {
-				if (!geocache[address]) {
-					geocache[address] = geoCoder.getLatLng(address);
-				}
-				console.log(address + ': ' + geocache[address]);
-				return geocache[address];
-			},
-			getCoount: () => {
-				let count = 0;
-				for (const code in geocache) {
-					count++;
-				}
-				return count;
+			display() {
+				console.log(`Displaying: ${this.name}`);
 			}
 		}
-	}
 
-	(() => {
-		const geo = new GetProxy();
+		class ImageProxy {
+			constructor(name) {
+				this.name = name;
+				this.image = null;
+			}
 
-		geo.getLatLng("Amsterdam");
-		geo.getLatLng("Amsterdam");
+			display() {
+				if (!this.image) {
+					this.image = new Image(this.name);
+				}
+				this.image.display();
+			}
+		}
 
-		console.log("Cache size: " + geo.getCoount());
-	})();
-</script>
+		const image = new ImageProxy('visa.jpg');
+		image.display();
+	</script>
 </body>
 </html>

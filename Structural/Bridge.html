@@ -4,68 +4,71 @@
 	<title></title>
 </head>
 <body>
-<script type="text/javascript">
-	class Gestures {
-		constructor(output) {
-			this.output = output;
+	<script type="text/javascript">
+		class Device {
+			constructor() {
+				this.volume = 0;
+				this.enabled = false;
+			}
+
+			enable() {
+				this.enabled = true;
+			}
+
+			disable() {
+				this.enabled = false;
+			}
+
+			getVolume() {
+				return this.volume;
+			}
+
+			setVolume(amount) {
+				this.volume = amount;
+			}
 		}
 
-		tap() {
-			this.output.click();
+		class Radio extends Device {}
+
+		class TV extends Device {}
+
+		class BasicRemote {
+			constructor(device) {
+				this.device = device;
+			}
+
+			enableDevice() {
+				this.device.enable();
+			}
+
+			disableDevice() {
+				this.device.disable();
+			}
 		}
 
-		swipe() {
-			this.output.move();
+		class AdvancedRemote extends BasicRemote {
+			constructor(device) {
+				super(device);
+			}
+
+			volumeUp() {
+				this.device.setVolume(this.device.getVolume() + 10);
+			}
+
+			volumeDown() {
+				this.device.setVolume(this.device.getVolume() - 10);
+			}
 		}
 
-		pan() {
-			this.output.drag();
-		}
-	}
+		const radio = new Radio();
+		const tv = new TV();
 
-	class Screen {}
+		const remoteForRadio = new BasicRemote(radio);
+		const remoteForTV = new AdvancedRemote(tv);
 
-	class ExtendedScreen1 extends Screen {
-		click() {
-			console.log('Screen1 select');
-		}
-
-		move() {
-			console.log('Screen1 move');
-		}
-
-		drag() {
-			console.log('Screen1 drag');
-		}
-	}
-
-	class ExtendedScreen2 extends Screen {
-		click() {
-			console.log('Screen2 select');
-		}
-
-		move() {
-			console.log('Screen2 move');
-		}
-
-		drag() {
-			console.log('Screen2 drag');
-		}
-	}
-
-	(() => {
-		const screen1 = new ExtendedScreen1(),
-			screen2 = new ExtendedScreen2(),
-			hand1 = new Gestures(screen1),
-			hand2 = new Gestures(screen2);
-
-		hand1.tap();
-		hand1.swipe();
-		hand1.pan();
-		hand2.tap();
-		hand2.swipe();
-		hand2.pan();
-	})();
-</script>
+		remoteForRadio.enableDevice();
+		remoteForTV.enableDevice();
+		remoteForTV.volumeUp();
+	</script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 </head>
 <body>
 <script type="text/javascript">
-	class Shop {
+	class Plant {
 		construct(builder) {
 			builder.step1();
 			builder.step2();
@@ -23,11 +23,21 @@
 		}
 
 		step2() {
-			this.car.addParts();
+			this.car.addDoors();
 		}
 
 		get() {
 			return this.car;
+		}
+	}
+
+	class Car {
+		constructor() {
+			this.doors = 0;
+		}
+
+		addDoors() {
+			this.doors = 4;
 		}
 	}
 
@@ -41,7 +51,7 @@
 		}
 
 		step2() {
-			this.truck.addParts();
+			this.truck.addBumper();
 		}
 
 		get() {
@@ -49,45 +59,27 @@
 		}
 	}
 
-	class Car {
-		constructor() {
-			this.doors = 0;
-		}
-
-		addParts() {
-			this.doors = 4;
-		}
-
-		say() {
-			console.log("I'm a " + this.doors + "-door car");
-		}
-	}
-
 	class Truck {
 		constructor() {
-			this.doors = 0;
+			this.bumper = false;
 		}
 
-		addParts() {
-			this.doors = 2;
-		}
-
-		say() {
-			console.log("I'm a " + this.doors + "-door truck");
+		addBumper() {
+			this.bumper = true;
 		}
 	}
 
 	(() => {
-		const shop = new Shop(),
+		const plant = new Plant(),
 			carBuilder = new CarBuilder(),
 			truckBuilder = new TruckBuilder();
 
 		let vehicles = [];
-		vehicles.push(shop.construct(carBuilder));
-		vehicles.push(shop.construct(truckBuilder));
+		vehicles.push(plant.construct(carBuilder));
+		vehicles.push(plant.construct(truckBuilder));
 
 		for (const vehicle of vehicles) {
-			vehicle.say();
+			console.log(vehicle);
 		}
 	})();
 </script>

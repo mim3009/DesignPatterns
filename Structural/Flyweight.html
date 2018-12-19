@@ -5,80 +5,46 @@
 </head>
 <body>
 <script type="text/javascript">
-	class Flyweight {
-		constructor(make, model, processor) {
-			this.make = make;
-			this.model = model;
-			this.processor = processor;
+	class Circle {
+		constructor(color) {
+			this.color = color;
+		}
+
+		draw() {
+			console.log(`Circle: ${this.color}`);
 		}
 	}
 
-	const FlyweightFactory = (() => {
-		const flyweights = {};
+	class CircleFactory {
+		constructor() {
+			this.circles = {};
+		}
 
-		return {
-			get: (make, model, processor) => {
-				if (!flyweights[make + model]) {
-					flyweights[make + model] = new Flyweight(make, model, processor);
-				}
-				return flyweights[make + model];
-			},
+		getCircle(color) {
+			let circle = this.circles[color];
 
-			getCount: () => {
-				let count = 0;
-				for (const f in flyweights) {
-					count++;
-				}
-				return count;
+			if (!circle) {
+				circle = new Circle(color);
+				this.circles[color] = circle;
+				console.log(`New ${color} circle was created`);
 			}
-		}
-	})();
 
-	function ComputerCollection () {
-		const computers = {};
-		let count = 0;
-
-		return {
-			add: function (make, model, processor, memory, tag) {
-				computers[tag] = new Computer(make, model, processor, memory, tag);
-				count++;
-			},
-
-			get: function (tag) {
-				return computers[tag];
-			},
-
-			getCount: function () {
-				return count;
-			}
-		};
-	}
-
-	class Computer {
-		constructor(make, model, processor, memory, tag) {
-			this.flyweight = FlyweightFactory.get(make, model, processor);
-			this.memory = memory;
-			this.tag = tag;
-		}
-
-		getMake() {
-			return this.flyweight.make;
+			return circle;
 		}
 	}
-	
+
 	(() => {
-		var computers = new ComputerCollection();
+		const colors = ["Red", "Green", "Blue", "White", "Black"],
+			circleFactory = new CircleFactory();
 
-		computers.add("Dell", "Studio XPS", "Intel", "5G", "Y755P");
-		computers.add("Dell", "Studio XPS", "Intel", "6G", "X997T");
-		computers.add("Dell", "Studio XPS", "Intel", "2G", "U8U80");
-		computers.add("Dell", "Studio XPS", "Intel", "2G", "NT777");
-		computers.add("Dell", "Studio XPS", "Intel", "2G", "0J88A");
-		computers.add("HP", "Envy", "Intel", "4G", "CNU883701");
-		computers.add("HP", "Envy", "Intel", "2G", "TXU003283");
+		for (let i = 0; i < 20; i++) {
+			const circle = circleFactory.getCircle(getRandomColor());
+			circle.draw();
+		}
 
-		console.log("Computers: " + computers.getCount());
-		console.log("Flyweights: " + FlyweightFactory.getCount());
+		function getRandomColor() {
+			return colors[parseInt(Math.random() * colors.length)];
+		}
 	})();
 </script>
 </body>

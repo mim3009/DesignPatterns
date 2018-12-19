@@ -1,61 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title> </title>
 </head>
 <body>
-
-<script type="text/javascript">
-	class Employee {
-		constructor(name) {
-			this.name = name;
+	<script type="text/javascript">
+		class Cork {
+			constructor(type) {
+				this.type = type;
+			}
+		}
+		
+		class Water {
+			constructor(type) {
+				this.type = type;
+			}
 		}
 
-		say() {
-			console.log("I'm Employee " + this.name);
-		}
-	}
+		class Bottle {
+			constructor(type) {
+				this.type = type;
+			}
 
-	class EmployeeFactory {
-		constructor() {}
+			fillWithWater(water) {
+				this.water = water;
+			}
 
-		create(name) {
-			return new Employee(name);
-		}
-	}
-
-	class Vendor {
-		constructor(name) {
-			this.name = name;
+			closeWithCork(cork) {
+				this.cork = cork;
+			}
 		}
 
-		say() {
-			console.log("I'm Vendor " + this.name);
+		class PepsiCork extends Cork {
+			constructor() {
+				super('pepsi');
+			}
 		}
-	}
-
-	class VendorFactory {
-		constructor() {}
-
-		create(name) {
-			return new Vendor(name);
+		
+		class PepsiWater extends Water {
+			constructor() {
+				super('pepsi');
+			}
 		}
-	}
-
-	(() => {
-		let persons = [],
-			employeeFactory = new EmployeeFactory();
-			vendorFactory = new VendorFactory();
-
-		persons.push(employeeFactory.create('Roma'));
-		persons.push(employeeFactory.create('Igor'));
-		persons.push(vendorFactory.create('Max'));
-		persons.push(vendorFactory.create('Kate'));
-
-		for (const employee of persons) {
-			employee.say();
+		
+		class PepsiBottle extends Bottle {
+			constructor() {
+				super('pepsi');
+			}
 		}
-	})();
-</script>
+		
+		class PepsiFactory {}
+		
+		PepsiFactory.create = () => {
+			const bottle = new PepsiBottle(),
+				water = new PepsiWater(),
+				cork = new PepsiCork();
+			
+			bottle.fillWithWater(water);
+			bottle.closeWithCork(cork);
+			
+			return bottle;
+		};
+		
+		const pepsiBottle = PepsiFactory.create();
+		console.log(pepsiBottle);
+	</script>
 </body>
 </html>

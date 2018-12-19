@@ -1,52 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title> </title>
 </head>
 <body>
 <script type="text/javascript">
-	class Shipping {
-		request(zipStart, zipEnd, weight) {
-			return "$49.75";
-		}
-	}
-
-	class AdvancedShipping {
-		login(credentials) {}
-
-		setStart(start) {}
-
-		setDestination(destination) {}
-
-		calculate(weight) {
-			return "$39.50";
-		}
-	}
-
-	function ShippingAdapter(credentials) {
-		const shipping = new AdvancedShipping();
-		shipping.login(credentials);
-
-		return {
-			request: (zipStart, zipEnd, weight) => {
-				shipping.setStart(zipStart);
-				shipping.setDestination(zipEnd);
-				return shipping.calculate(weight);
+	class AudioPlayer {
+		play(audioType, name) {
+			if (audioType === 'mp3') {
+				console.log(`Playing mp3 song ${name}`);
 			}
-		};
+			else if (audioType === 'mp4' || audioType === 'vlc') {
+				const mediaAdapter = new MediaAdapter(audioType);
+				mediaAdapter.play(name);
+			}
+			else {
+				console.log(`Invalid media type ${audioType}`);
+			}
+		}
 	}
 
-	(()=> {
-		const shipping = new Shipping(),
-			credentials = {token: '33ss-12d'},
-			adapter = new ShippingAdapter(credentials);
+	class MediaAdapter {
+		constructor(audioType) {
+			if (audioType === 'mp4') {
+				this.mediaPlayer = new Mp4Player();
+			}
+			else if (audioType === 'vlc') {
+				this.mediaPlayer = new VLCPlayer();
+			}
+		}
 
-		let cost = shipping.request("78781", "10010", "2 lbs");
-		console.log("Old cost: " + cost);
+		play(name) {
+			this.mediaPlayer.play(name);
+		}
+	}
 
-		cost = adapter.request("78701", "10010", "2 lbs");
-		console.log("New cost: " + cost);
-	})();
+	class Mp4Player {
+		constructor() {
+			this.format = 'MP4';
+		}
+
+		play(name) {
+			console.log(`Playing ${name} in ${this.format} format`);
+		}
+	}
+
+	class VLCPlayer {
+		constructor() {
+			this.format = 'VLC';
+		}
+
+		play(name) {
+			console.log(`Playing ${name} in ${this.format} format`);
+		}
+	}
+
+	const audioPlayer = new AudioPlayer();
+
+	audioPlayer.play('mp3', 'song 1');
+	audioPlayer.play('mp4', 'song 2');
+	audioPlayer.play('vlc', 'song 3');
+	audioPlayer.play('avi', 'song 4');
 </script>
 </body>
 </html>

@@ -5,61 +5,35 @@
 </head>
 <body>
 <script type="text/javascript">
-	class Participant {
+	class ChatRoom {
+		showMessage(user, message) {
+			console.log(`${user.name}: ${message}`);
+		}
+	}
+
+	class User {
 		constructor(name) {
 			this.name = name;
-			this.chatroom = null;
+			this.chatRoom = null;
 		}
 
-		send(message, to) {
-			this.chatroom.send(message, this, to);
+		enterChatRoom(chatRoom) {
+			this.chatRoom = chatRoom;
 		}
-		
-		receive(message, from) {
-			console.log(from.name + " to " + this.name + ": " + message);
+
+		sendMessage(message) {
+			this.chatRoom.showMessage(this, message);
 		}
-	};
+	}
 
-	function Chatroom() {
-		let participants = {};
+	let	chatRoom = new ChatRoom(),
+		roma = new User('Roma'),
+		kate = new User('Kate');
 
-		return {
-			register: function(participant) {
-				participants[participant.name] = participant;
-				participant.chatroom = this;
-			},
+	roma.enterChatRoom(chatRoom);
+	kate.enterChatRoom(chatRoom);
 
-			send: function(message, from, to) {
-				if (to) {
-					to.receive(message, from);
-				}
-				else {
-					for (key in participants) {
-						if (participants[key] !== from) {
-							participants[key].receive(message, from);
-						}
-					}
-				}
-			}
-		};
-	};
-
-	const yoko = new Participant("Yoko"),
-		john = new Participant("John"),
-		paul = new Participant("Paul"),
-		ringo = new Participant("Ringo"),
-		chatroom = new Chatroom();
-	
-	chatroom.register(yoko);
-	chatroom.register(john);
-	chatroom.register(paul);
-	chatroom.register(ringo);
-
-	yoko.send("All you need is love.");
-	yoko.send("I love you John.");
-	john.send("Hey, no need to broadcast", yoko);
-	paul.send("Ha, I heard that!");
-	ringo.send("Paul, what do you think?", paul);
+	kate.sendMessage('Hi Roma!');
 </script>
 </body>
 </html>

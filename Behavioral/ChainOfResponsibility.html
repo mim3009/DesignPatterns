@@ -5,22 +5,76 @@
 </head>
 <body>
 <script type="text/javascript">
-	class Request {
-		constructor(amount) {
-			this.amount = amount;
-			console.log("Requested: $" + amount + "\n");
+	class Logger {
+		constructor(level) {
+			this.level = level;
+			this.nextLevelLogger = null;
 		}
 
-		get(bill) {
-			const count = Math.floor(this.amount / bill);
-			this.amount -= count * bill;
-			console.log("Disperse " + count + " $" + bill + " bills");
-			return this;
+		setNextLevelLogger(logger) {
+			this.nextLevelLogger = logger;
+		}
+
+		writeMessage(message) {
+			console.log(`message from ${this.level} logger`);
+		}
+
+		logMessage(level, message) {
+			if (this.level >= level) {
+				this.writeMessage(message);
+			}
+			else if (this.nextLevelLogger) {
+				this.nextLevelLogger.logMessage(level, message);
+			}
 		}
 	}
 
-	const request = new Request(378);
-	request.get(100).get(50).get(20).get(10).get(5).get(1);
+	class InfoLogger extends Logger {
+		constructor() {
+			super(1);
+		}
+
+		writeMessage(message) {
+			console.log(`INFO: ${message}`);
+		}
+	}
+
+	class DebugLogger extends Logger {
+		constructor() {
+			super(2);
+		}
+
+		writeMessage(message) {
+			console.log(`DEBUG: ${message}`);
+		}
+	}
+
+	class ErrorLogger extends Logger {
+		constructor() {
+			super(3);
+		}
+
+		writeMessage(message) {
+			console.log(`ERROR: ${message}`);
+		}
+	}
+
+	function getChainOfLoggers() {
+		const infoLogger = new InfoLogger(),
+			debugLogger = new DebugLogger(),
+			errorLogger = new ErrorLogger();
+
+		infoLogger.setNextLevelLogger(debugLogger);
+		debugLogger.setNextLevelLogger(errorLogger);
+
+		return infoLogger;
+	}
+
+	loggersChain = getChainOfLoggers();
+
+	loggersChain.logMessage(1, "Hello1");
+	loggersChain.logMessage(2, "Hello2");
+	loggersChain.logMessage(3, "Hello3");
 </script>
 </body>
 </html>

@@ -11,17 +11,12 @@
 			this.items = items;
 		}
 
-		first() {
-			this.reset();
-			return this.next();
-		}
-
 		next() {
 			return this.items[this.index++];
 		}
 
 		hasNext() {
-			return this.index <= this.items.length;
+			return this.index < this.items.length;
 		}
 
 		reset() {
@@ -29,18 +24,15 @@
 		}
 
 		each(callback) {
-			for (let item = this.first(); this.hasNext(); item = this.next()) {
-				callback(item);
+			this.reset();
+
+			while (this.hasNext()) {
+				callback(this.next());
 			}
 		}
 	}
 
-	const items = ["one", 2, "circle", true, "Applepie"],
-		iterator = new Iterator(items);
-
-	for (let item = iterator.first(); iterator.hasNext(); item = iterator.next()) {
-		console.log(item);
-	}
+	const iterator = new Iterator(["one", 2, "circle", true, "Applepie"]);
 
 	iterator.each((item) => {
 		console.log(item);

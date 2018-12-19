@@ -4,37 +4,31 @@
 	<title></title>
 </head>
 <body>
-<script type="text/javascript">
-	class User {
-		constructor(name) {
-			this.name = name;
+	<script type="text/javascript">
+		class Human {
+			constructor(name) {
+				this.name = name;
+			}
+
+			sayHi() {
+				console.log(`Hi my name is ${this.name}`);
+			}
 		}
 
-		say() {
-			console.log("User: " + this.name);
+		class DecoratedHuman {
+			constructor(human, age) {
+				this.human = human;
+				this.age = age;
+			}
+
+			sayHi() {
+				this.human.sayHi();
+				console.log(`I'm ${this.age} years old`);
+			}
 		}
-	}
 
-	class DecoratedUser {
-		constructor(user, street, city) {
-			this.user = user;
-			this.name = user.name;
-			this.street = street;
-			this.city = city;
-		}
-
-		say() {
-			console.log("Decorated User: " + this.name + ", " + this.street + ", " + this.city);
-		}
-	}
-
-	(() => {
-		const user = new User("Roma");
-		user.say();
-
-		const decorated = new DecoratedUser(user, "pr. Peremogy", "Chernihiv");
-		decorated.say();
-	})();
-</script>
+		var decoratedHuman = new DecoratedHuman(new Human('Roman'), 24);
+		decoratedHuman.sayHi();
+	</script>
 </body>
 </html>

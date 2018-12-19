@@ -1,32 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title> </title>
 </head>
 <body>
-<script type="text/javascript">
-	const datastore = {
-		process: function() {
-			this.connect();
-			this.select();
-			this.disconnect();
-			return true;
+	<script>
+		class Game {
+			play() {
+				this.initialize();
+				this.startPlay();
+				this.endPlay();
+			}
+
+			initialize() {}
+			startPlay() {}
+			endPlay() {}
 		}
-	};
 
-	function inherit(newProto) {
-		const F = function() {};
-		F.prototype = newProto;
-		return new F();
-	}
+		class Footbal extends Game {
+			initialize() {
+				console.log(`Initializing game Footbal`);
+			}
 
-	const mysql = inherit(datastore);
-	
-	mysql.connect = () => console.log("Mysql: connect step");
-	mysql.select = () => console.log("Mysql: select step");
-	mysql.disconnect = () => console.log("Mysql: disconnect step");
+			startPlay() {
+				console.log(`Starting playing game Footbal`);
+			}
 
-	mysql.process();
-</script>
+			endPlay() {
+				console.log(`Finishing playing game Footbal`);
+			}
+		}
+
+		class Hockey extends Game {
+			initialize() {
+				console.log(`Initializing game Hockey`);
+			}
+
+			startPlay() {
+				console.log(`Starting playing game Hockey`);
+			}
+
+			endPlay() {
+				console.log(`Finishing playing game Hockey`);
+			}
+		}
+
+		const footbalGame = new Footbal();
+		footbalGame.play();
+
+		const hockeyGame = new Hockey();
+		hockeyGame.play();
+	</script>
 </body>
 </html>

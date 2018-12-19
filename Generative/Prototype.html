@@ -5,40 +5,38 @@
 </head>
 <body>
 <script type="text/javascript">
+	class Customer {
+		constructor(first, last) {
+			this.first = first;
+			this.last = last;
+		}
+
+		say() {
+			console.log(`name: ${this.first} ${this.last}`);
+		}
+	}
+
 	class CustomerPrototype {
 		constructor(proto) {
 			this.proto = proto;
 		}
 
 		clone() {
-			const customer = new Customer();
-
-			customer.first = this.proto.first;
-			customer.last = this.proto.last;
-			customer.status = this.proto.status;
-
-			return customer;
-		}
-	}
-
-	class Customer {
-		constructor(first, last, status) {
-			this.first = first;
-			this.last = last;
-			this.status = status;
-		}
-
-		say() {
-			console.log("name: " + this.first + " " + this.last + ", status: " + this.status);
+			return new Customer(this.proto.first, this.proto.last);
 		}
 	}
 
 	(() => {
-		const proto = new Customer('Roman', 'Zhyhulskyi', 'single'),
-			prototype = new CustomerPrototype(proto);
-			customer = prototype.clone();
+		const customer = new Customer('Roman', 'Zhyhulskyi'),
+			customerPrototype = new CustomerPrototype(customer);
+			clonedCustomer = customerPrototype.clone();
 
-		customer.say();
+		clonedCustomer.say();
+		
+		customer.first = "Vlad";
+		const clonedCustomer2 = customerPrototype.clone();
+
+		clonedCustomer2.say();
 	})();
 </script>
 </body>
