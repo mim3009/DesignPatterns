@@ -20,6 +20,8 @@
 		class Bottle {
 			constructor(type) {
 				this.type = type;
+				this.cork = null;
+				this.water = null;
 			}
 
 			fillWithWater(water) {
@@ -49,21 +51,20 @@
 			}
 		}
 		
-		class PepsiFactory {}
+		class PepsiFactory {
+			static create() {
+				const bottle = new PepsiBottle(),
+					water = new PepsiWater(),
+					cork = new PepsiCork();
+				
+				bottle.fillWithWater(water);
+				bottle.closeWithCork(cork);
+				
+				return bottle;
+			}
+		}
 		
-		PepsiFactory.create = () => {
-			const bottle = new PepsiBottle(),
-				water = new PepsiWater(),
-				cork = new PepsiCork();
-			
-			bottle.fillWithWater(water);
-			bottle.closeWithCork(cork);
-			
-			return bottle;
-		};
-		
-		const pepsiBottle = PepsiFactory.create();
-		console.log(pepsiBottle);
+		console.log(PepsiFactory.create());
 	</script>
 </body>
 </html>

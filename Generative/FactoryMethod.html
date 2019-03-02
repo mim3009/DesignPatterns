@@ -7,21 +7,26 @@
 <script type="text/javascript">
 	class PartTimeEmployee {}
 	class FullTimeEmployee {}
-	class EmployeeFactory {}
 
-	EmployeeFactory.create = (type) => {
-		switch(type) {
-			case "partTime":
-				return new PartTimeEmployee();
-				break;
-			case "fullTime":
-				return new FullTimeEmployee();
-				break;
+	class EmployeeFactory {
+		static create(type) {
+			switch(type) {
+				case "partTime":
+					return new PartTimeEmployee();
+					break;
+				case "fullTime":
+					return new FullTimeEmployee();
+					break;
+				default:
+					throw new Error("Employee type is not defined");
+					break;
+			}
 		}
 	}
 
 	console.log(EmployeeFactory.create("fullTime"));
 	console.log(EmployeeFactory.create("partTime"));
+	console.log(EmployeeFactory.create("test"));
 </script>
 </body>
 </html>
