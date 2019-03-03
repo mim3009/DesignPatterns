@@ -5,11 +5,23 @@
 </head>
 <body>
 <script type="text/javascript">
-	class Plant {
-		construct(builder) {
-			builder.step1();
-			builder.step2();
-			return builder.get();
+	class Car {
+		constructor() {
+			this.doors = 0;
+		}
+
+		addDoors() {
+			this.doors = 4;
+		}
+	}
+
+	class Truck {
+		constructor() {
+			this.bumper = false;
+		}
+
+		addBumper() {
+			this.bumper = true;
 		}
 	}
 
@@ -31,16 +43,6 @@
 		}
 	}
 
-	class Car {
-		constructor() {
-			this.doors = 0;
-		}
-
-		addDoors() {
-			this.doors = 4;
-		}
-	}
-
 	class TruckBuilder {
 		constructor() {
 			this.truck = null;
@@ -59,29 +61,25 @@
 		}
 	}
 
-	class Truck {
-		constructor() {
-			this.bumper = false;
-		}
+	class CarPlant {
+		static construct(builder) {
+			builder.step1();
+			builder.step2();
 
-		addBumper() {
-			this.bumper = true;
+			return builder.get();
 		}
 	}
 
-	(() => {
-		const plant = new Plant(),
-			carBuilder = new CarBuilder(),
-			truckBuilder = new TruckBuilder();
+	const carBuilder = new CarBuilder(),
+		truckBuilder = new TruckBuilder();
 
-		let vehicles = [];
-		vehicles.push(plant.construct(carBuilder));
-		vehicles.push(plant.construct(truckBuilder));
+	let vehicles = [];
+	vehicles.push(Plant.construct(carBuilder));
+	vehicles.push(Plant.construct(truckBuilder));
 
-		for (const vehicle of vehicles) {
-			console.log(vehicle);
-		}
-	})();
+	for (const vehicle of vehicles) {
+		console.log(vehicle);
+	}
 </script>
 </body>
 </html>
