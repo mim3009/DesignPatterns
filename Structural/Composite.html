@@ -5,62 +5,60 @@
 </head>
 <body>
 <script type="text/javascript">
-	class Node {
-		constructor(name) {
-			this.children = [];
-			this.name = name;
+	class Box {
+		constructor(price) {
+			this.items = [];
+			this.price = price;
 		}
 
-		add(child) {
-			this.children.push(child);
+		put(item) {
+			this.items.push(item);
 		}
 
-		remove(child) {
-			for (let i = 0, len = this.children.length; i < len; i++) {
-				if (this.children[i] === child) {
-					this.children.splice(i, 1);
-					break;
-				}
+		getPrice() {
+			let price = this.price;
+
+			for (const item of this.items) {
+				price += item.getPrice();
 			}
-		}
 
-		getChild(i) {
-			return this.children[i];
-		}
-
-		hasChildren() {
-			return this.children.length > 0;
+			return price;
 		}
 	}
 
-	function traverse(indent, node) {
-		console.log(Array(indent++).join("--") + node.name);
+	class Product {
+		constructor(price) {
+			this.price = price;
+		}
 
-		for (let i = 0, len = node.children.length; i < len; i++) {
-			traverse(indent, node.getChild(i));
+		getPrice() {
+			return this.price;
 		}
 	}
 
 	(() => {
-		const tree = new Node('root'),
-			left = new Node('left'),
-			right = new Node('right'),
-			leftLeft = new Node('leftleft'),
-			leftRight = new Node('leftright'),
-			rightLeft = new Node('rightleft'),
-			rightRight = new Node('rightright');
+		const product1 = new Product(10);
+		const product2 = new Product(11);
+		const product3 = new Product(12);
+		const product4 = new Product(13);
+		const product5 = new Product(14);
 
-		tree.add(left);
-		tree.add(right);
-		tree.remove(right);
-		tree.add(right);
-		left.add(leftLeft);
-		left.add(leftRight);
-		right.add(rightLeft);
-		right.add(rightRight);
+		const box1 = new Box(1);
+		const box2 = new Box(2);
+		const box3 = new Box(3);
 
-		traverse(1, tree);
-	})();
+		box1.put(box2);
+		box1.put(product1);
+		box2.put(box3);
+		box2.put(product2);
+		box2.put(product3);
+		box3.put(product4);
+		box3.put(product5);
+
+		console.log(box1.getPrice());
+		console.log(box2.getPrice());
+		console.log(box3.getPrice());
+	})();	
 </script>
 </body>
 </html>
