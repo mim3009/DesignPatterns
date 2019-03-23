@@ -12,7 +12,7 @@
 		}
 
 		say() {
-			console.log(`name: ${this.first} ${this.last}`);
+			console.log(`I'm ${this.first} ${this.last}`);
 		}
 	}
 
@@ -36,6 +36,7 @@
 		customer.first = "Vlad";
 		const clonedCustomer2 = customerPrototype.clone();
 
+		clonedCustomer.say();
 		clonedCustomer2.say();
 	})();
 </script>
