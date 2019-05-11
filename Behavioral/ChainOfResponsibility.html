@@ -15,16 +15,12 @@
 			this.nextLevelLogger = logger;
 		}
 
-		writeMessage(message) {
-			console.log(`message from ${this.level} logger`);
-		}
-
-		logMessage(level, message) {
+		log(level, message) {
 			if (this.level >= level) {
-				this.writeMessage(message);
+				console.log(`${this.level}: ${message}`);
 			}
 			else if (this.nextLevelLogger) {
-				this.nextLevelLogger.logMessage(level, message);
+				this.nextLevelLogger.log(level, message);
 			}
 		}
 	}
@@ -33,29 +29,17 @@
 		constructor() {
 			super(1);
 		}
-
-		writeMessage(message) {
-			console.log(`INFO: ${message}`);
-		}
 	}
 
 	class DebugLogger extends Logger {
 		constructor() {
 			super(2);
 		}
-
-		writeMessage(message) {
-			console.log(`DEBUG: ${message}`);
-		}
 	}
 
 	class ErrorLogger extends Logger {
 		constructor() {
 			super(3);
-		}
-
-		writeMessage(message) {
-			console.log(`ERROR: ${message}`);
 		}
 	}
 
@@ -72,9 +56,9 @@
 
 	loggersChain = getChainOfLoggers();
 
-	loggersChain.logMessage(1, "Hello1");
-	loggersChain.logMessage(2, "Hello2");
-	loggersChain.logMessage(3, "Hello3");
+	loggersChain.log(1, "Hello1");
+	loggersChain.log(2, "Hello2");
+	loggersChain.log(3, "Hello3");
 </script>
 </body>
 </html>
