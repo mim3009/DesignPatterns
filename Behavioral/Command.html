@@ -8,6 +8,7 @@
 			function add(x, y) {
 				return x + y;
 			}
+
 			function sub(x, y) {
 				return x - y;
 			}
@@ -20,38 +21,39 @@
 				}
 			}
 
-			function AddComand(value) {
-				return new Command(add, sub, value);
+			class AddCommand extends Command {
+				constructor(value) {
+					super(add, sub, value);
+				}
 			}
 
-			function SubComand(value) {
-				return new Command(sub, add, value);
+			class SubCommand extends Command {
+				constructor(value) {
+					super(sub, add, value);
+				}
 			}
 
 			function Calculator() {
-				let current = 0,
-					commands = [];
+				let current = 0;
+				const commands = [];
 
 				return {
 					execute: (command) => {
 						current = command.execute(current, command.value);
 						commands.push(command);
-						console.log("Result: " + current);
+						console.log(current);
 					},
-
 					undo: () => {
 						const command = commands.pop();
 						current = command.undo(current, command.value);
-						console.log("Result: " + current);
+						console.log(current);
 					}
-				}
+				};
 			}
 
 			const calculator = new Calculator();
-
-			calculator.execute(new AddComand(100));
-			calculator.execute(new SubComand(24));
-
+			calculator.execute(new AddCommand(20));
+			calculator.execute(new SubCommand(10));
 			calculator.undo();
 			calculator.undo();
 		</script>
