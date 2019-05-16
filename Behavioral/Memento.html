@@ -6,9 +6,8 @@
 <body>
 <script type="text/javascript">
 	class Person {
-		constructor(name, city) {
+		constructor(name) {
 			this.name = name;
-			this.city = city;
 		}
 
 		pack() {
@@ -16,9 +15,8 @@
 		}
 
 		renew(memento) {
-			let m = JSON.parse(memento);
+			const m = JSON.parse(memento);
 			this.name = m.name;
-			this.city = m.city;
 		}
 	}
 
@@ -36,21 +34,14 @@
 		}
 	}
 
-	let roma = new Person("Roma", "Kyiv"),
-		kate = new Person("Kate", "Chernihiv"),
+	const roma = new Person("Roma"),
 		caretaker = new CareTaker();
 
 	caretaker.add(1, roma.pack());
-	caretaker.add(2, kate.pack());
-
 	roma.name = "Lalala";
-	kate.name = "AAA";
-
 	roma.renew(caretaker.get(1));
-	kate.renew(caretaker.get(2));
 
 	console.log(roma.name);
-	console.log(kate.name);
 </script>
 </body>
 </html>
