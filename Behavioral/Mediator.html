@@ -5,35 +5,61 @@
 </head>
 <body>
 <script type="text/javascript">
-	class ChatRoom {
-		showMessage(user, message) {
-			console.log(`${user.name}: ${message}`);
+	class Colleague {
+		constructor(mediator) {
+			this.mediator = mediator;
+		}
+
+		send(message) {
+			this.mediator.send(message, this);
+		}
+
+		notify(message) {}
+	}
+
+	class CustomerColleague extends Colleague {
+		notify(message) {
+			console.log(`Message to Customer: ${message}`);
 		}
 	}
 
-	class User {
-		constructor(name) {
-			this.name = name;
-			this.chatRoom = null;
-		}
-
-		enterChatRoom(chatRoom) {
-			this.chatRoom = chatRoom;
-		}
-
-		sendMessage(message) {
-			this.chatRoom.showMessage(this, message);
+	class ProgrammerColleague extends Colleague {
+		notify(message) {
+			console.log(`Message to Programmer: ${message}`);
 		}
 	}
 
-	let	chatRoom = new ChatRoom(),
-		roma = new User('Roma'),
-		kate = new User('Kate');
+	class Mediator {
+		constructor() {
+			this.customer = null;
+			this.programmer = null;
+		}
 
-	roma.enterChatRoom(chatRoom);
-	kate.enterChatRoom(chatRoom);
+		setCustomer(customer) {
+			this.customer = customer;
+		}
 
-	kate.sendMessage('Hi Roma!');
+		setProgrammer(programmer) {
+			this.programmer = programmer;
+		}
+		
+		send(message, colleague) {
+			if (this.customer === colleague) {
+				this.programmer.notify(message);
+			} else if (this.programmer === colleague) {
+				this.customer.notify(message);
+			}
+		}
+	}
+
+	const mediator = new Mediator();
+	const customer = new CustomerColleague(mediator);
+	const programmer = new ProgrammerColleague(mediator);
+	mediator.setCustomer(customer);
+	mediator.setProgrammer(programmer);
+
+	customer.send('Hi Programmer!');
+	programmer.send('Hi Customer!');
 </script>
 </body>
 </html>
