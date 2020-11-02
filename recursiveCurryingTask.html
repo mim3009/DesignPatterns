@@ -7,11 +7,7 @@
 			function calculator() {
 				const sum = [...arguments].reduce((previous, current) => previous + current);
 
-				if (arguments.length === 1) {
-					return sum;
-				} else {
-					return calculator.bind(null, sum);
-				}
+				return arguments.length === 1 ? sum : calculator.bind(null, sum);
 			}
 
 			console.log(calculator(1, 2)(10, 15, 11, 43)(1000)(18)());
